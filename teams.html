@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>codehive · teams</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #ffffff; font-family: 'Inter', sans-serif; color: #1e1e1e; min-height: 100vh; display: flex; flex-direction: column; }
+    .header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid #e0e0e0; background: white; }
+    .logo { font-size: 1.8rem; font-weight: 700; color: #0077ff; }
+    .nav { display: flex; align-items: center; gap: 12px; }
+    .nav a { text-decoration: none; color: #1e1e1e; font-weight: 500; padding: 8px 16px; border-radius: 30px; transition: background 0.2s, color 0.2s; }
+    .nav a:hover { background: #eef5ff; color: #0077ff; }
+    .nav a.active { background: #0077ff; color: white; }
+    .profile-icon { width: 48px; height: 48px; border-radius: 50%; background: #eef5ff; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #0077ff; margin-left: 8px; }
+    .profile-icon i { font-size: 1.8rem; color: #0077ff; }
+    .container { max-width: 1200px; margin: 32px auto; padding: 0 32px; width: 100%; }
+
+    /* search bar */
+    .search-section {
+      background: #f5f7fa;
+      border-radius: 60px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 32px;
+      border: 1px solid #e0e0e0;
+    }
+    .search-section i {
+      color: #8f8f8f;
+      font-size: 1.2rem;
+      margin-right: 12px;
+    }
+    .search-section input {
+      border: none;
+      background: transparent;
+      flex: 1;
+      padding: 14px 0;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    /* teams grid */
+    .teams-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    .team-card {
+      background: #f5f7fa;
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid #e0e0e0;
+      transition: box-shadow 0.2s;
+    }
+    .team-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .team-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #0077ff;
+    }
+    .team-desc {
+      color: #4f4f4f;
+      margin-bottom: 12px;
+    }
+    .team-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      color: #6f6f6f;
+    }
+    .team-meta i {
+      margin-right: 4px;
+    }
+    .team-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #0077ff;
+      color: #0077ff;
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex: 1;
+      text-align: center;
+    }
+    .btn-outline:hover {
+      background: #eef5ff;
+    }
+    .btn-outline:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #b0b0b0;
+      color: #8f8f8f;
+    }
+
+    /* create group card */
+    .create-group {
+      background: #f5f7fa;
+      border-radius: 24px;
+      padding: 28px;
+      border: 1px solid #e0e0e0;
+    }
+    .create-group h3 {
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      color: #0077ff;
+    }
+    .create-group input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid #d0d0d0;
+      border-radius: 40px;
+      margin-bottom: 16px;
+      font-size: 1rem;
+      outline: none;
+    }
+    .create-group input:focus {
+      border-color: #0077ff;
+    }
+    .btn-primary {
+      background: #0077ff;
+      border: none;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover {
+      background: #005fcc;
+    }
+
+    /* detail view */
+    .back-btn {
+      background: none;
+      border: 1px solid #0077ff;
+      color: #0077ff;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .member-list, .group-chat {
+      background: #f5f7fa;
+      border-radius: 24px;
+      padding: 24px;
+      margin: 20px 0;
+      border: 1px solid #e0e0e0;
+    }
+    .member-item {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .group-chat-window {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e0e0e0;
+      margin-bottom: 16px;
+    }
+    .chat-message {
+      padding: 6px 0;
+    }
+
+    /* modal */
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-card { background: white; border-radius: 32px; padding: 32px; max-width: 450px; width: 90%; }
+    .modal-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .modal-avatar { font-size: 4rem; color: #0077ff; background: #eef5ff; border-radius: 50%; padding: 8px; }
+    .modal-close { margin-left: auto; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #8f8f8f; }
+    .skill-tag { background: #eef5ff; color: #0077ff; border-radius: 30px; padding: 6px 14px; display: inline-block; margin: 4px; }
+    .project-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    hr { border: 1px solid #f0f0f0; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">codehive</div>
+    <div style="display: flex; align-items: center;">
+      <nav class="nav">
+        <a href="index.html">home</a>
+        <a href="library.html">library</a>
+        <a href="aihub.html">AI hub</a>
+        <a href="teams.html" class="active">teams</a>
+      </nav>
+      <div class="profile-icon" id="profileTrigger">
+        <i class="fa-regular fa-user"></i>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="teamsContainer">
+      <!-- dynamic content (list or detail) -->
+    </div>
+  </main>
+
+  <!-- profile modal -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <i class="fa-regular fa-circle-user modal-avatar"></i>
+        <h2>@genz_coder</h2>
+        <button class="modal-close" id="closeModalBtn"><i class="fa-regular fa-xmark"></i></button>
+      </div>
+      <p style="margin-bottom: 16px;">full-stack developer · AI/ML enthusiast</p>
+      <hr>
+      <h3>skills</h3>
+      <div style="margin: 16px 0;">
+        <span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">React</span><span class="skill-tag">Node.js</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">Rust</span><span class="skill-tag">Docker</span>
+      </div>
+      <h3>projects</h3>
+      <div style="margin: 16px 0;">
+        <div class="project-item">🚀 CodeHive — social dev app</div>
+        <div class="project-item">🤖 ML deployer — fastapi + torch</div>
+        <div class="project-item">🎮 rusty game — terminal rpg</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      let groups = [
+        { name: 'web dev warlocks', desc: 'html/css/js/three.js', members: 42, requested: false, memberList: ['alice', 'bob', 'charlie'], messages: [] },
+        { name: 'AI freshmen', desc: 'learning transformers together', members: 28, requested: false, memberList: ['eve', 'frank', 'grace'], messages: [] },
+        { name: 'game dev noobs', desc: 'godot & unity', members: 19, requested: false, memberList: ['henry', 'isla', 'jack'], messages: [] },
+        { name: 'c++ veterans', desc: 'pointers are friends', members: 15, requested: true, memberList: ['kate', 'leo', 'mia', 'nick'], messages: [] },
+      ];
+
+      let selectedTeamIndex = null;
+      let searchTerm = '';
+
+      const container = document.getElementById('teamsContainer');
+
+      function renderTeams() {
+        if (selectedTeamIndex !== null) {
+          // detail view
+          const team = groups[selectedTeamIndex];
+          const membersHtml = team.memberList.map(m => `<div class="member-item"><i class="fa-regular fa-user"></i> ${m}</div>`).join('');
+          const messagesHtml = team.messages.map(msg => `<div class="chat-message"><strong>${msg.sender}:</strong> ${msg.text}</div>`).join('') || '<div>No messages yet</div>';
+          container.innerHTML = `
+            <div>
+              <button class="back-btn" id="backToTeamsBtn"><i class="fa-regular fa-arrow-left"></i> back to teams</button>
+              <div class="team-card" style="padding: 28px;">
+                <h2 style="font-size: 2rem; color: #0077ff;">${team.name}</h2>
+                <p style="margin: 12px 0;">${team.desc} · ${team.members} members</p>
+                <div class="member-list">
+                  <h3>Members</h3>
+                  ${membersHtml}
+                </div>
+                <div class="group-chat">
+                  <h3>Discussion</h3>
+                  <div class="group-chat-window" id="groupChatWindow">${messagesHtml}</div>
+                  <div style="display: flex; gap: 12px;">
+                    <input type="text" id="groupChatInput" placeholder="Type a message..." style="flex:1; padding: 12px; border:1px solid #d0d0d0; border-radius:40px;">
+                    <button id="sendGroupMsgBtn" class="btn-outline" style="flex:0;">Send</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          document.getElementById('backToTeamsBtn').addEventListener('click', () => {
+            selectedTeamIndex = null;
+            renderTeams();
+          });
+          document.getElementById('sendGroupMsgBtn').addEventListener('click', () => {
+            const inp = document.getElementById('groupChatInput');
+            if (inp.value.trim() && selectedTeamIndex !== null) {
+              groups[selectedTeamIndex].messages.push({ sender: 'you', text: inp.value.trim() });
+              inp.value = '';
+              renderTeams();
+            }
+          });
+          return;
+        }
+
+        // list view with search
+        let filteredGroups = groups.filter(g => {
+          const inName = g.name.toLowerCase().includes(searchTerm);
+          const inDesc = g.desc.toLowerCase().includes(searchTerm);
+          const inMembers = g.memberList.some(m => m.toLowerCase().includes(searchTerm));
+          return inName || inDesc || inMembers;
+        });
+
+        let groupsHtml = filteredGroups.map((g, idx) => {
+          return `<div class="team-card">
+            <div class="team-name">${g.name}</div>
+            <div class="team-desc">${g.desc}</div>
+            <div class="team-meta"><i class="fa-regular fa-user"></i> ${g.members} members</div>
+            <div class="team-actions">
+              <button class="btn-outline req-btn" data-group-index="${idx}" ${g.requested ? 'disabled' : ''}>${g.requested ? 'requested' : 'request join'}</button>
+              <button class="btn-outline view-team-btn" data-view-index="${idx}">view team</button>
+            </div>
+          </div>`;
+        }).join('') || '<p style="text-align:center;">No teams match your search.</p>';
+
+        container.innerHTML = `
+          <div class="search-section">
+            <i class="fa-regular fa-magnifying-glass"></i>
+            <input type="text" id="searchTeams" placeholder="Search teams or members..." value="${searchTerm}">
+          </div>
+          <div class="teams-grid">
+            ${groupsHtml}
+          </div>
+          <div class="create-group">
+            <h3><i class="fa-regular fa-plus"></i> create new squad</h3>
+            <input type="text" id="newGroupName" placeholder="group name">
+            <input type="text" id="newGroupDesc" placeholder="short description">
+            <button class="btn-primary" id="createGroupBtn">start group</button>
+          </div>
+        `;
+
+        document.getElementById('searchTeams').addEventListener('input', (e) => {
+          searchTerm = e.target.value.toLowerCase();
+          renderTeams();
+        });
+
+        document.querySelectorAll('.req-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = btn.dataset.groupIndex;
+            if (idx !== undefined && !groups[idx].requested) {
+              groups[idx].requested = true;
+              renderTeams();
+            }
+          });
+        });
+
+        document.querySelectorAll('.view-team-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = btn.dataset.viewIndex;
+            if (idx !== undefined) {
+              selectedTeamIndex = parseInt(idx);
+              renderTeams();
+            }
+          });
+        });
+
+        document.getElementById('createGroupBtn').addEventListener('click', () => {
+          const name = document.getElementById('newGroupName').value.trim();
+          const desc = document.getElementById('newGroupDesc').value.trim();
+          if (name && desc) {
+            groups.push({ name, desc, members: 1, requested: false, memberList: ['you'], messages: [] });
+            document.getElementById('newGroupName').value = '';
+            document.getElementById('newGroupDesc').value = '';
+            renderTeams();
+          }
+        });
+      }
+
+      // profile modal
+      const modal = document.getElementById('profileModal');
+      const trigger = document.getElementById('profileTrigger');
+      const close = document.getElementById('closeModalBtn');
+      trigger.addEventListener('click', () => modal.style.display = 'flex');
+      close.addEventListener('click', () => modal.style.display = 'none');
+      window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+      renderTeams();
+    })();
+  </script>
+</body>
+</html>

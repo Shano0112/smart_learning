@@ -1,11 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>codehive · home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #ffffff;
+      font-family: 'Inter', sans-serif;
+      color: #1e1e1e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 32px;
+      border-bottom: 1px solid #e0e0e0;
+      background: white;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0077ff;
+      letter-spacing: -0.5px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #1e1e1e;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 30px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .nav a:hover {
+      background: #eef5ff;
+      color: #0077ff;
+    }
+
+    .nav a.active {
+      background: #0077ff;
+      color: white;
+    }
+
+    .profile-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #eef5ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid #0077ff;
+      margin-left: 8px;
+    }
+
+    .profile-icon i {
+      font-size: 1.8rem;
+      color: #0077ff;
+    }
+
+    /* main container */
+    .container {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 32px;
+      width: 100%;
+    }
+
+    /* create post card */
+    .create-post {
+      background: #f5f7fa;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 32px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .create-post textarea {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid #d0d0d0;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+      margin-bottom: 16px;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .create-post textarea:focus {
+      border-color: #0077ff;
+    }
+
+    .post-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .file-upload {
+      position: relative;
+      display: inline-block;
+    }
+
+    .file-upload-btn {
+      background: white;
+      border: 1px solid #0077ff;
+      color: #0077ff;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .file-upload-btn:hover {
+      background: #eef5ff;
+    }
+
+    #postImageFile {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    #imagePreview {
+      max-width: 120px;
+      max-height: 120px;
+      border-radius: 12px;
+      border: 1px solid #d0d0d0;
+      display: none;
+      object-fit: cover;
+    }
+
+    .btn-primary {
+      background: #0077ff;
+      border: none;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #005fcc;
+    }
+
+    /* posts */
+    .post {
+      background: #f5f7fa;
+      border-radius: 24px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .post-header i {
+      font-size: 2rem;
+      color: #0077ff;
+      background: #eef5ff;
+      padding: 8px;
+      border-radius: 50%;
+    }
+
+    .post-user {
+      font-weight: 600;
+      color: #1e1e1e;
+    }
+
+    .post-time {
+      font-size: 0.9rem;
+      color: #6f6f6f;
+      margin-left: auto;
+    }
+
+    .post-content {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .post-image {
+      max-width: 100%;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .post-stats {
+      display: flex;
+      gap: 24px;
+      color: #5f5f5f;
+    }
+
+    .like-btn {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .like-btn.liked i {
+      color: #ff4d4d;
+    }
+
+    .like-btn i {
+      font-size: 1.2rem;
+    }
+
+    /* profile modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: white;
+      border-radius: 32px;
+      padding: 32px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .modal-avatar {
+      font-size: 4rem;
+      color: #0077ff;
+      background: #eef5ff;
+      border-radius: 50%;
+      padding: 8px;
+    }
+
+    .modal-close {
+      margin-left: auto;
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #8f8f8f;
+    }
+
+    .skill-tag {
+      background: #eef5ff;
+      color: #0077ff;
+      border-radius: 30px;
+      padding: 6px 14px;
+      display: inline-block;
+      margin: 4px;
+      font-size: 0.9rem;
+    }
+
+    .project-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    hr {
+      border: 1px solid #f0f0f0;
+      margin: 20px 0;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello World</h1>
+  <header class="header">
+    <div class="logo">codehive</div>
+    <div style="display: flex; align-items: center;">
+      <nav class="nav">
+        <a href="index.html" class="active">home</a>
+        <a href="library.html">library</a>
+        <a href="aihub.html">AI hub</a>
+        <a href="teams.html">teams</a>
+      </nav>
+      <div class="profile-icon" id="profileTrigger">
+        <i class="fa-regular fa-user"></i>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- create post -->
+    <div class="create-post">
+      <textarea id="postInput" rows="3" placeholder="Share your coding thoughts..."></textarea>
+      <div class="post-actions">
+        <div class="file-upload">
+          <span class="file-upload-btn"><i class="fa-regular fa-image"></i> add image</span>
+          <input type="file" id="postImageFile" accept="image/*">
+        </div>
+        <img id="imagePreview" src="#" alt="preview">
+        <button class="btn-primary" id="postBtn"><i class="fa-regular fa-paper-plane"></i> post</button>
+      </div>
+    </div>
+
+    <!-- posts feed -->
+    <div id="postsFeed"></div>
+  </main>
+
+  <!-- profile modal -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <i class="fa-regular fa-circle-user modal-avatar"></i>
+        <h2>@genz_coder</h2>
+        <button class="modal-close" id="closeModalBtn"><i class="fa-regular fa-xmark"></i></button>
+      </div>
+      <p style="margin-bottom: 16px;">full-stack developer · AI/ML enthusiast</p>
+      <hr>
+      <h3>skills</h3>
+      <div style="margin: 16px 0;">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">React</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">TensorFlow</span>
+        <span class="skill-tag">Rust</span>
+        <span class="skill-tag">Docker</span>
+      </div>
+      <h3>projects</h3>
+      <div style="margin: 16px 0;">
+        <div class="project-item">🚀 CodeHive — social dev app</div>
+        <div class="project-item">🤖 ML deployer — fastapi + torch</div>
+        <div class="project-item">🎮 rusty game — terminal rpg</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      let posts = [
+        { user: 'python_maverick', content: 'just deployed a fastapi app with ml model 🚀 #AI', time: '12m ago', likes: 24, likedByUser: false, imageData: null },
+        { user: 'css_wizard', content: 'grid + neon animations = ❤️‍🔥 check my codepen', time: '34m ago', likes: 13, likedByUser: false, imageData: null },
+        { user: 'rustacean', content: 'borrow checker saved me again. lol', time: '1h ago', likes: 7, likedByUser: false, imageData: null },
+      ];
+
+      const feed = document.getElementById('postsFeed');
+      const postInput = document.getElementById('postInput');
+      const postBtn = document.getElementById('postBtn');
+      const fileInput = document.getElementById('postImageFile');
+      const preview = document.getElementById('imagePreview');
+
+      function renderHome() {
+        let html = '';
+        posts.forEach((post, idx) => {
+          const likeIcon = post.likedByUser ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+          const likeClass = post.likedByUser ? 'like-btn liked' : 'like-btn';
+          html += `<div class="post">
+            <div class="post-header">
+              <i class="fa-regular fa-circle-user"></i>
+              <span class="post-user">@${post.user}</span>
+              <span class="post-time">${post.time}</span>
+            </div>
+            <div class="post-content">${post.content}</div>
+            ${post.imageData ? `<img src="${post.imageData}" class="post-image">` : ''}
+            <div class="post-stats">
+              <span class="${likeClass}" data-like-index="${idx}"><i class="${likeIcon}"></i> ${post.likes}</span>
+              <span><i class="fa-regular fa-comment"></i> reply</span>
+            </div>
+          </div>`;
+        });
+        feed.innerHTML = html || '<div style="text-align:center; color:#6f6f6f;">No posts yet. Be the first to share!</div>';
+
+        document.querySelectorAll('.like-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = btn.dataset.likeIndex;
+            if (idx !== undefined) {
+              if (posts[idx].likedByUser) {
+                posts[idx].likes -= 1;
+                posts[idx].likedByUser = false;
+              } else {
+                posts[idx].likes += 1;
+                posts[idx].likedByUser = true;
+              }
+              renderHome();
+            }
+          });
+        });
+      }
+
+      fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          preview.style.display = 'none';
+        }
+      });
+
+      postBtn.addEventListener('click', () => {
+        const content = postInput.value.trim();
+        if (!content) return;
+        const file = fileInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            posts.unshift({
+              user: 'genz_coder_' + Math.floor(Math.random()*1000),
+              content: content,
+              time: 'just now',
+              likes: 0,
+              likedByUser: false,
+              imageData: e.target.result
+            });
+            postInput.value = '';
+            fileInput.value = '';
+            preview.style.display = 'none';
+            renderHome();
+          };
+          reader.readAsDataURL(file);
+        } else {
+          posts.unshift({
+            user: 'genz_coder_' + Math.floor(Math.random()*1000),
+            content: content,
+            time: 'just now',
+            likes: 0,
+            likedByUser: false,
+            imageData: null
+          });
+          postInput.value = '';
+          renderHome();
+        }
+      });
+
+      // profile modal
+      const modal = document.getElementById('profileModal');
+      const trigger = document.getElementById('profileTrigger');
+      const close = document.getElementById('closeModalBtn');
+      trigger.addEventListener('click', () => modal.style.display = 'flex');
+      close.addEventListener('click', () => modal.style.display = 'none');
+      window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+      renderHome();
+    })();
+  </script>
 </body>
 </html>
