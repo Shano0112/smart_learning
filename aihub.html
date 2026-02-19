@@ -28,7 +28,32 @@
     .chat-input-area input:focus { border-color: #0077ff; }
     .send-btn { background: #0077ff; border: none; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; }
     .send-btn:hover { background: #005fcc; }
-    .note { color: #6f6f6f; margin-top: 12px; font-size: 0.9rem; }
+
+    /* Glass AI Shortcuts */
+    .ai-shortcuts {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .ai-shortcuts button {
+      padding: 10px 18px;
+      border-radius: 30px;
+      border: 1px solid rgba(0, 119, 255, 0.2);
+      background: rgba(0, 119, 255, 0.08);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #0077ff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .ai-shortcuts button:hover {
+      background: rgba(0, 119, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
     /* modal */
     .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
     .modal-card { background: white; border-radius: 32px; padding: 32px; max-width: 450px; width: 90%; }
@@ -49,6 +74,7 @@
         <a href="library.html">library</a>
         <a href="aihub.html" class="active">AI hub</a>
         <a href="teams.html">teams</a>
+        <a href="chats.html">chats</a>
       </nav>
       <div class="profile-icon" id="profileTrigger">
         <i class="fa-regular fa-user"></i>
@@ -59,11 +85,19 @@
   <main class="container">
     <div class="chat-card">
       <div class="chat-window" id="chatWindow"></div>
+
+      <!-- Added AI Shortcuts -->
+      <div class="ai-shortcuts">
+        <button onclick="openAI('chatgpt')">ChatGPT</button>
+        <button onclick="openAI('gemini')">Gemini</button>
+        <button onclick="openAI('deepseek')">DeepSeek</button>
+      </div>
+
       <div class="chat-input-area">
         <input type="text" id="chatInput" placeholder="Ask me about coding...">
         <button class="send-btn" id="sendChatBtn"><i class="fa-regular fa-paper-plane"></i></button>
       </div>
-      <p class="note"><i class="fa-regular fa-circle-check"></i> Simulated AI — not real ChatGPT</p>
+
     </div>
   </main>
 
@@ -90,59 +124,72 @@
     </div>
   </div>
 
-  <script>
-    (function() {
-      let chatMessages = [
-        { sender: 'bot', text: '🤖 Hi! I\'m Idea2Code AI. Ask me about programming.' },
-        { sender: 'bot', text: 'Try: "python", "html", "joke"' },
-      ];
+<script>
+(function() {
 
-      const chatWindow = document.getElementById('chatWindow');
-      const chatInput = document.getElementById('chatInput');
-      const sendBtn = document.getElementById('sendChatBtn');
+  function openAI(platform) {
+    if (platform === "chatgpt") window.open("https://chat.openai.com", "_blank");
+    if (platform === "gemini") window.open("https://gemini.google.com", "_blank");
+    if (platform === "deepseek") window.open("https://chat.deepseek.com", "_blank");
+  }
+  window.openAI = openAI;
 
-      function renderChat() {
-        chatWindow.innerHTML = chatMessages.map(m => 
-          `<div class="message ${m.sender === 'user' ? 'user-msg' : 'bot-msg'}">${m.text}</div>`
-        ).join('');
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-      }
+  let chatMessages = [
+    { sender: 'bot', text: '🤖 Hi! I\'m builder AI. Ask me about programming.' }
+  ];
 
-      function botReply(userMsg) {
-        const lower = userMsg.toLowerCase();
-        if (lower.includes('python')) return "🐍 Python is great for AI and web. Try FastAPI or Django.";
-        if (lower.includes('html')) return "🌐 HTML+CSS+JS = the core of web. Flexbox is your friend.";
-        if (lower.includes('joke')) return "Why do programmers prefer dark mode? Because light attracts bugs! 😆";
-        if (lower.includes('ai') || lower.includes('ml')) return "🤖 Machine learning is fascinating. Check out TensorFlow or PyTorch.";
-        return "💬 Interesting! I'm still learning. Ask me something else.";
-      }
+  const chatWindow = document.getElementById('chatWindow');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendChatBtn');
 
-      sendBtn.addEventListener('click', () => {
-        const msg = chatInput.value.trim();
-        if (!msg) return;
-        chatMessages.push({ sender: 'user', text: msg });
-        renderChat();
-        chatInput.value = '';
-        setTimeout(() => {
-          chatMessages.push({ sender: 'bot', text: botReply(msg) });
-          renderChat();
-        }, 300);
+  function renderChat() {
+    chatWindow.innerHTML = chatMessages.map(m =>
+      `<div class="message ${m.sender === 'user' ? 'user-msg' : 'bot-msg'}">${m.text}</div>`
+    ).join('');
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  }
+
+  async function getAIReply(userMsg) {
+    try {
+      const response = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMsg })
       });
 
-      chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendBtn.click();
-      });
+      const data = await response.json();
+      return data.reply;
 
-      // profile modal
-      const modal = document.getElementById('profileModal');
-      const trigger = document.getElementById('profileTrigger');
-      const close = document.getElementById('closeModalBtn');
-      trigger.addEventListener('click', () => modal.style.display = 'flex');
-      close.addEventListener('click', () => modal.style.display = 'none');
-      window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+    } catch (error) {
+      return "⚠️ AI server not responding.";
+    }
+  }
 
-      renderChat();
-    })();
-  </script>
+  sendBtn.addEventListener('click', async () => {
+    const msg = chatInput.value.trim();
+    if (!msg) return;
+
+    chatMessages.push({ sender: 'user', text: msg });
+    renderChat();
+    chatInput.value = '';
+
+    chatMessages.push({ sender: 'bot', text: "⏳ Thinking..." });
+    renderChat();
+
+    const reply = await getAIReply(msg);
+
+    chatMessages.pop();
+    chatMessages.push({ sender: 'bot', text: reply });
+    renderChat();
+  });
+
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendBtn.click();
+  });
+
+  renderChat();
+})();
+</script>
+
 </body>
 </html>
