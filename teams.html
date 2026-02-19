@@ -10,7 +10,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: #ffffff; font-family: 'Inter', sans-serif; color: #1e1e1e; min-height: 100vh; display: flex; flex-direction: column; }
     .header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid #e0e0e0; background: white; }
-    .logo { font-size: 1.8rem; font-weight: 700; color: #0077ff; }
+    .logo { font-size: 1.8rem; font-weight: 700; color: #0077ff; letter-spacing: -0.5px; }
     .nav { display: flex; align-items: center; gap: 12px; }
     .nav a { text-decoration: none; color: #1e1e1e; font-weight: 500; padding: 8px 16px; border-radius: 30px; transition: background 0.2s, color 0.2s; }
     .nav a:hover { background: #eef5ff; color: #0077ff; }
@@ -19,181 +19,54 @@
     .profile-icon i { font-size: 1.8rem; color: #0077ff; }
     .container { max-width: 1200px; margin: 32px auto; padding: 0 32px; width: 100%; }
 
-    /* search bar */
-    .search-section {
-      background: #f5f7fa;
-      border-radius: 60px;
-      padding: 8px 16px;
-      display: flex;
-      align-items: center;
-      margin-bottom: 32px;
-      border: 1px solid #e0e0e0;
-    }
-    .search-section i {
-      color: #8f8f8f;
-      font-size: 1.2rem;
-      margin-right: 12px;
-    }
-    .search-section input {
-      border: none;
-      background: transparent;
-      flex: 1;
-      padding: 14px 0;
-      font-size: 1rem;
-      outline: none;
-    }
+    /* search bar with button */
+    .search-section { display: flex; gap: 12px; margin-bottom: 32px; }
+    .search-wrapper { flex: 1; background: #f5f7fa; border-radius: 60px; padding: 8px 20px; display: flex; align-items: center; border: 1px solid #e0e0e0; }
+    .search-wrapper i { color: #8f8f8f; font-size: 1.2rem; margin-right: 12px; }
+    .search-wrapper input { border: none; background: transparent; flex: 1; padding: 14px 0; font-size: 1rem; outline: none; }
+    .search-btn { background: #0077ff; border: none; color: white; padding: 0 28px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .search-btn:hover { background: #005fcc; }
 
     /* teams grid */
-    .teams-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-    .team-card {
-      background: #f5f7fa;
-      border-radius: 24px;
-      padding: 24px;
-      border: 1px solid #e0e0e0;
-      transition: box-shadow 0.2s;
-    }
-    .team-card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .team-name {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: #0077ff;
-    }
-    .team-desc {
-      color: #4f4f4f;
-      margin-bottom: 12px;
-    }
-    .team-meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-      font-size: 0.95rem;
-      color: #6f6f6f;
-    }
-    .team-meta i {
-      margin-right: 4px;
-    }
-    .team-actions {
-      display: flex;
-      gap: 12px;
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #0077ff;
-      color: #0077ff;
-      padding: 8px 16px;
-      border-radius: 40px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background 0.2s;
-      flex: 1;
-      text-align: center;
-    }
-    .btn-outline:hover {
-      background: #eef5ff;
-    }
-    .btn-outline:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      border-color: #b0b0b0;
-      color: #8f8f8f;
-    }
+    .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px; }
+    .team-card { background: #f5f7fa; border-radius: 24px; padding: 24px; border: 1px solid #e0e0e0; transition: box-shadow 0.2s; }
+    .team-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .team-name { font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; color: #0077ff; }
+    .team-desc { color: #4f4f4f; margin-bottom: 12px; }
+    .team-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; font-size: 0.95rem; color: #6f6f6f; }
+    .team-meta i { margin-right: 4px; }
+    .team-actions { display: flex; gap: 12px; }
+    .btn-outline { background: transparent; border: 1px solid #0077ff; color: #0077ff; padding: 8px 16px; border-radius: 40px; font-weight: 500; cursor: pointer; transition: background 0.2s; flex: 1; text-align: center; }
+    .btn-outline:hover { background: #eef5ff; }
+    .btn-outline:disabled { opacity: 0.4; cursor: not-allowed; border-color: #b0b0b0; color: #8f8f8f; }
 
     /* create group card */
-    .create-group {
-      background: #f5f7fa;
-      border-radius: 24px;
-      padding: 28px;
-      border: 1px solid #e0e0e0;
-    }
-    .create-group h3 {
-      font-size: 1.6rem;
-      margin-bottom: 20px;
-      color: #0077ff;
-    }
-    .create-group input {
-      width: 100%;
-      padding: 14px 18px;
-      border: 1px solid #d0d0d0;
-      border-radius: 40px;
-      margin-bottom: 16px;
-      font-size: 1rem;
-      outline: none;
-    }
-    .create-group input:focus {
-      border-color: #0077ff;
-    }
-    .btn-primary {
-      background: #0077ff;
-      border: none;
-      color: white;
-      padding: 14px 28px;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s;
-    }
-    .btn-primary:hover {
-      background: #005fcc;
-    }
+    .create-group { background: #f5f7fa; border-radius: 24px; padding: 28px; border: 1px solid #e0e0e0; }
+    .create-group h3 { font-size: 1.6rem; margin-bottom: 20px; color: #0077ff; }
+    .create-group input { width: 100%; padding: 14px 18px; border: 1px solid #d0d0d0; border-radius: 40px; margin-bottom: 16px; font-size: 1rem; outline: none; }
+    .create-group input:focus { border-color: #0077ff; }
+    .btn-primary { background: #0077ff; border: none; color: white; padding: 14px 28px; border-radius: 40px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
+    .btn-primary:hover { background: #005fcc; }
 
     /* detail view */
-    .back-btn {
-      background: none;
-      border: 1px solid #0077ff;
-      color: #0077ff;
-      padding: 10px 20px;
-      border-radius: 40px;
-      font-weight: 500;
-      cursor: pointer;
-      margin-bottom: 24px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .member-list, .group-chat {
-      background: #f5f7fa;
-      border-radius: 24px;
-      padding: 24px;
-      margin: 20px 0;
-      border: 1px solid #e0e0e0;
-    }
-    .member-item {
-      padding: 8px 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .group-chat-window {
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      height: 200px;
-      overflow-y: auto;
-      border: 1px solid #e0e0e0;
-      margin-bottom: 16px;
-    }
-    .chat-message {
-      padding: 6px 0;
-    }
+    .back-btn { background: none; border: 1px solid #0077ff; color: #0077ff; padding: 10px 20px; border-radius: 40px; font-weight: 500; cursor: pointer; margin-bottom: 24px; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s; }
+    .back-btn:hover { background: #eef5ff; }
+    .member-list, .group-chat { background: #f5f7fa; border-radius: 24px; padding: 24px; margin: 20px 0; border: 1px solid #e0e0e0; }
+    .member-item { padding: 10px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.2s; border-radius: 40px; padding-left: 12px; }
+    .member-item:hover { background: #eef5ff; }
+    .member-item i { font-size: 1.5rem; color: #0077ff; }
+    .group-chat-window { background: white; border-radius: 20px; padding: 20px; height: 200px; overflow-y: auto; border: 1px solid #e0e0e0; margin-bottom: 16px; }
+    .chat-message { padding: 6px 0; }
+    .chat-message strong { color: #0077ff; }
 
-    /* modal */
+    /* modals */
     .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .modal-card { background: white; border-radius: 32px; padding: 32px; max-width: 450px; width: 90%; }
+    .modal-card { background: white; border-radius: 32px; padding: 32px; max-width: 450px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .modal-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
     .modal-avatar { font-size: 4rem; color: #0077ff; background: #eef5ff; border-radius: 50%; padding: 8px; }
     .modal-close { margin-left: auto; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #8f8f8f; }
-    .skill-tag { background: #eef5ff; color: #0077ff; border-radius: 30px; padding: 6px 14px; display: inline-block; margin: 4px; }
-    .project-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .skill-tag { background: #eef5ff; color: #0077ff; border-radius: 30px; padding: 6px 14px; display: inline-block; margin: 4px; font-size: 0.9rem; }
+    .project-item, .achievement-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
     hr { border: 1px solid #f0f0f0; margin: 20px 0; }
   </style>
 </head>
@@ -213,13 +86,11 @@
     </div>
   </header>
 
-  <main class="container">
-    <div id="teamsContainer">
-      <!-- dynamic content (list or detail) -->
-    </div>
+  <main class="container" id="teamsContainer">
+    <!-- dynamic content -->
   </main>
 
-  <!-- profile modal -->
+  <!-- Profile modal (for logged-in user) -->
   <div class="modal-overlay" id="profileModal">
     <div class="modal-card">
       <div class="modal-header">
@@ -235,33 +106,176 @@
       </div>
       <h3>projects</h3>
       <div style="margin: 16px 0;">
-        <div class="project-item">🚀 CodeHive — social dev app</div>
+        <div class="project-item">🚀 Idea2Code — social dev app</div>
         <div class="project-item">🤖 ML deployer — fastapi + torch</div>
         <div class="project-item">🎮 rusty game — terminal rpg</div>
+        <div class="project-item">📊 pandas visualizer — streamlit</div>
       </div>
+      <h3>achievements</h3>
+      <div style="margin: 16px 0;">
+        <div class="achievement-item">🏆 Google Code Jam 2023 participant</div>
+        <div class="achievement-item">⭐ Top 10 in local hackathon 2024</div>
+        <div class="achievement-item">📜 AWS Certified Cloud Practitioner</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Member profile modal (dynamic) -->
+  <div class="modal-overlay" id="memberModal">
+    <div class="modal-card" id="memberModalContent">
+      <!-- filled dynamically -->
     </div>
   </div>
 
   <script>
     (function() {
-      let groups = [
-        { name: 'web dev warlocks', desc: 'html/css/js/three.js', members: 42, requested: false, memberList: ['alice', 'bob', 'charlie'], messages: [] },
-        { name: 'AI freshmen', desc: 'learning transformers together', members: 28, requested: false, memberList: ['eve', 'frank', 'grace'], messages: [] },
-        { name: 'game dev noobs', desc: 'godot & unity', members: 19, requested: false, memberList: ['henry', 'isla', 'jack'], messages: [] },
-        { name: 'c++ veterans', desc: 'pointers are friends', members: 15, requested: true, memberList: ['kate', 'leo', 'mia', 'nick'], messages: [] },
+      // ---------- DATA: 8+ teams with cool names & descriptions ----------
+      const teams = [
+        {
+          name: 'Code Architects',
+          desc: 'designing scalable software blueprints',
+          members: 4,
+          requested: false,
+          memberList: [
+            { username: 'alice' }, { username: 'bob' }, { username: 'charlie' }, { username: 'dana' }
+          ],
+          messages: []
+        },
+        {
+          name: 'DevOps Wizards',
+          desc: 'mastering CI/CD, containers, and cloud spells',
+          members: 3,
+          requested: false,
+          memberList: [
+            { username: 'eve' }, { username: 'frank' }, { username: 'grace' }
+          ],
+          messages: []
+        },
+        {
+          name: 'Cloud Native Knights',
+          desc: 'building resilient systems on Kubernetes',
+          members: 4,
+          requested: false,
+          memberList: [
+            { username: 'henry' }, { username: 'isla' }, { username: 'jack' }, { username: 'kate' }
+          ],
+          messages: []
+        },
+        {
+          name: 'Frontend Fusion',
+          desc: 'crafting pixel‑perfect interfaces with React & Vue',
+          members: 5,
+          requested: false,
+          memberList: [
+            { username: 'leo' }, { username: 'mia' }, { username: 'nick' }, { username: 'oliver' }, { username: 'penny' }
+          ],
+          messages: []
+        },
+        {
+          name: 'Backend Brewmasters',
+          desc: 'brewing robust APIs and microservices',
+          members: 4,
+          requested: false,
+          memberList: [
+            { username: 'quinn' }, { username: 'rachel' }, { username: 'sam' }, { username: 'tina' }
+          ],
+          messages: []
+        },
+        {
+          name: 'Data Science Guild',
+          desc: 'extracting insights from data with ML & stats',
+          members: 4,
+          requested: false,
+          memberList: [
+            { username: 'uma' }, { username: 'victor' }, { username: 'wendy' }, { username: 'xander' }
+          ],
+          messages: []
+        },
+        {
+          name: 'Mobile Mavericks',
+          desc: 'creating slick iOS and Android apps',
+          members: 3,
+          requested: false,
+          memberList: [
+            { username: 'yara' }, { username: 'zack' }, { username: 'amy' }
+          ],
+          messages: []
+        },
+        {
+          name: 'Security Syndicate',
+          desc: 'fortifying systems and hunting vulnerabilities',
+          members: 4,
+          requested: false,
+          memberList: [
+            { username: 'brian' }, { username: 'chloe' }, { username: 'derek' }, { username: 'elena' }
+          ],
+          messages: []
+        }
       ];
 
+      // Extended user profiles (all usernames used above + some extras)
+      const allUsers = [
+        { username: 'alice', skills: ['HTML', 'CSS', 'JavaScript'], projects: ['Portfolio site', 'E‑commerce frontend'], achievements: ['CSS Battle top 10%', 'Hackathon winner'] },
+        { username: 'bob', skills: ['React', 'Node.js', 'MongoDB'], projects: ['Chat app', 'Weather dashboard'], achievements: ['Open Source Contributor', 'MongoDB badge'] },
+        { username: 'charlie', skills: ['Vue', 'Firebase', 'Tailwind'], projects: ['Blog platform', 'Real-time polls'], achievements: ['Vue.js community member', 'Firebase summit'] },
+        { username: 'dana', skills: ['TypeScript', 'Angular', 'RxJS'], projects: ['Admin panel', 'Task manager'], achievements: ['Angular certification', 'Speaker at meetup'] },
+        { username: 'eve', skills: ['Python', 'PyTorch', 'Transformers'], projects: ['Sentiment analysis', 'NER system'], achievements: ['Hugging Face course', 'Kaggle notebook'] },
+        { username: 'frank', skills: ['TensorFlow', 'Keras', 'OpenCV'], projects: ['Image classifier', 'Object detection'], achievements: ['TF certificate', 'Research intern'] },
+        { username: 'grace', skills: ['Scikit-learn', 'Pandas', 'Matplotlib'], projects: ['Sales forecasting', 'Data viz'], achievements: ['Data science bootcamp', 'Medium writer'] },
+        { username: 'henry', skills: ['Unity', 'C#', 'Blender'], projects: ['2D platformer', 'Mobile puzzle'], achievements: ['Unity Learn course', 'Game jam 2024'] },
+        { username: 'isla', skills: ['Godot', 'GDScript', 'Pixel art'], projects: ['Top-down shooter', 'RPG prototype'], achievements: ['Godot contributor', 'Art station feature'] },
+        { username: 'jack', skills: ['Unreal', 'Blueprints', 'C++'], projects: ['FPS level', 'VR experiment'], achievements: ['Unreal fellowship', '3D modeling contest'] },
+        { username: 'kate', skills: ['Animation', 'Spine', 'Photoshop'], projects: ['Character animations', 'UI assets'], achievements: ['2D animation award', 'Adobe certified'] },
+        { username: 'leo', skills: ['Sound design', 'FMOD', 'Audacity'], projects: ['Game soundtrack', 'SFX pack'], achievements: ['Music composition degree', 'Indie dev collab'] },
+        { username: 'mia', skills: ['C++', 'STL', 'Boost'], projects: ['Game engine', 'Compiler toy'], achievements: ['C++ committee paper', 'ISO C++ meeting'] },
+        { username: 'nick', skills: ['C', 'Embedded', 'RTOS'], projects: ['IoT device', 'Drone controller'], achievements: ['Embedded world speaker', 'ARM innovation'] },
+        { username: 'oliver', skills: ['C++', 'Qt', 'OpenGL'], projects: ['CAD viewer', '3D editor'], achievements: ['Qt contributor', 'Graphics research'] },
+        { username: 'penny', skills: ['React Native', 'Expo', 'Redux'], projects: ['Fitness tracker', 'Food delivery app'], achievements: ['React Native EU speaker', 'OSS contributor'] },
+        { username: 'quinn', skills: ['Go', 'gRPC', 'Kafka'], projects: ['Payment service', 'Message broker'], achievements: ['Go contributor', 'CNCF ambassador'] },
+        { username: 'rachel', skills: ['Ruby on Rails', 'PostgreSQL', 'Redis'], projects: ['CRM platform', 'Job board'], achievements: ['Rails contributor', 'Ruby Hero award'] },
+        { username: 'sam', skills: ['Java', 'Spring', 'Hibernate'], projects: ['Banking API', 'Inventory system'], achievements: ['Spring certified', 'JavaOne speaker'] },
+        { username: 'tina', skills: ['PHP', 'Laravel', 'MySQL'], projects: ['E‑commerce backend', 'Content management'], achievements: ['Laravel contributor', 'PHP UK talk'] },
+        { username: 'uma', skills: ['Python', 'NumPy', 'Pandas'], projects: ['Data analysis pipeline', 'Dashboard'], achievements: ['PyData speaker', 'Pandas contributor'] },
+        { username: 'victor', skills: ['R', 'ggplot2', 'Shiny'], projects: ['Statistical modeling', 'Interactive reports'], achievements: ['RStudio certified', 'UseR! presenter'] },
+        { username: 'wendy', skills: ['SQL', 'Tableau', 'Excel'], projects: ['Sales dashboard', 'Customer segmentation'], achievements: ['Tableau visionary', 'Data visualization award'] },
+        { username: 'xander', skills: ['Scala', 'Spark', 'Hadoop'], projects: ['Big data processing', 'ETL pipeline'], achievements: ['Spark contributor', 'DataWorks summit'] },
+        { username: 'yara', skills: ['Swift', 'iOS', 'ARKit'], projects: ['AR shopping app', 'Meditation app'], achievements: ['Apple WWDC scholar', 'Swift mentor'] },
+        { username: 'zack', skills: ['Kotlin', 'Android', 'Jetpack'], projects: ['Fitness app', 'Note-taking app'], achievements: ['Google Developer Expert', 'Android dev challenge'] },
+        { username: 'amy', skills: ['Flutter', 'Dart', 'Firebase'], projects: ['Cross‑platform weather app', 'Chat app'], achievements: ['Flutter create contest', 'Google IO speaker'] },
+        { username: 'brian', skills: ['Penetration testing', 'Python', 'Burp Suite'], projects: ['Security audit tool', 'CTF platform'], achievements: ['OSCP certified', 'Bug bounty hall of fame'] },
+        { username: 'chloe', skills: ['Cryptography', 'Rust', 'Zero-knowledge proofs'], projects: ['Privacy wallet', 'ZK rollup'], achievements: ['Zcash grantee', 'Crypto researcher'] },
+        { username: 'derek', skills: ['AWS', 'Terraform', 'Ansible'], projects: ['Infrastructure as code', 'Disaster recovery'], achievements: ['AWS Hero', 'Terraform contributor'] },
+        { username: 'elena', skills: ['Kubernetes', 'Helm', 'Prometheus'], projects: ['Cluster monitoring', 'Operator pattern'], achievements: ['CNCF ambassador', 'KubeCon speaker'] }
+      ];
+
+      // State
       let selectedTeamIndex = null;
-      let searchTerm = '';
+      let searchInputText = '';       // current text in search box
+      let searchFilter = '';          // term used for filtering (updated on search button click)
 
       const container = document.getElementById('teamsContainer');
 
+      // Helper to find user details by username
+      function findUser(username) {
+        return allUsers.find(u => u.username === username) || { username, skills: [], projects: [], achievements: [] };
+      }
+
+      // Render team list or detail
       function renderTeams() {
         if (selectedTeamIndex !== null) {
-          // detail view
-          const team = groups[selectedTeamIndex];
-          const membersHtml = team.memberList.map(m => `<div class="member-item"><i class="fa-regular fa-user"></i> ${m}</div>`).join('');
-          const messagesHtml = team.messages.map(msg => `<div class="chat-message"><strong>${msg.sender}:</strong> ${msg.text}</div>`).join('') || '<div>No messages yet</div>';
+          // ----- DETAIL VIEW -----
+          const team = teams[selectedTeamIndex];
+          const membersHtml = team.memberList.map(m => {
+            return `<div class="member-item" data-username="${m.username}">
+              <i class="fa-regular fa-circle-user"></i>
+              <span>${m.username}</span>
+            </div>`;
+          }).join('');
+
+          const messagesHtml = team.messages.map(msg => 
+            `<div class="chat-message"><strong>${msg.sender}:</strong> ${msg.text}</div>`
+          ).join('') || '<div>No messages yet</div>';
+
           container.innerHTML = `
             <div>
               <button class="back-btn" id="backToTeamsBtn"><i class="fa-regular fa-arrow-left"></i> back to teams</button>
@@ -269,7 +283,7 @@
                 <h2 style="font-size: 2rem; color: #0077ff;">${team.name}</h2>
                 <p style="margin: 12px 0;">${team.desc} · ${team.members} members</p>
                 <div class="member-list">
-                  <h3>Members</h3>
+                  <h3>Members (click on a name to view profile)</h3>
                   ${membersHtml}
                 </div>
                 <div class="group-chat">
@@ -283,104 +297,175 @@
               </div>
             </div>
           `;
+
+          // Back button
           document.getElementById('backToTeamsBtn').addEventListener('click', () => {
             selectedTeamIndex = null;
             renderTeams();
           });
+
+          // Send message
           document.getElementById('sendGroupMsgBtn').addEventListener('click', () => {
             const inp = document.getElementById('groupChatInput');
             if (inp.value.trim() && selectedTeamIndex !== null) {
-              groups[selectedTeamIndex].messages.push({ sender: 'you', text: inp.value.trim() });
+              teams[selectedTeamIndex].messages.push({ sender: 'you', text: inp.value.trim() });
               inp.value = '';
               renderTeams();
             }
           });
-          return;
-        }
 
-        // list view with search
-        let filteredGroups = groups.filter(g => {
-          const inName = g.name.toLowerCase().includes(searchTerm);
-          const inDesc = g.desc.toLowerCase().includes(searchTerm);
-          const inMembers = g.memberList.some(m => m.toLowerCase().includes(searchTerm));
-          return inName || inDesc || inMembers;
-        });
+          // Member click -> open profile modal
+          document.querySelectorAll('.member-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+              const username = item.dataset.username;
+              const user = findUser(username);
+              showMemberModal(user);
+            });
+          });
+        } else {
+          // ----- LIST VIEW -----
+          // Filter teams based on searchFilter (team name, description, or member usernames)
+          const filteredTeams = teams.filter(team => {
+            if (!searchFilter) return true;
+            const inName = team.name.toLowerCase().includes(searchFilter);
+            const inDesc = team.desc.toLowerCase().includes(searchFilter);
+            const inMembers = team.memberList.some(m => m.username.toLowerCase().includes(searchFilter));
+            return inName || inDesc || inMembers;
+          });
 
-        let groupsHtml = filteredGroups.map((g, idx) => {
-          return `<div class="team-card">
-            <div class="team-name">${g.name}</div>
-            <div class="team-desc">${g.desc}</div>
-            <div class="team-meta"><i class="fa-regular fa-user"></i> ${g.members} members</div>
-            <div class="team-actions">
-              <button class="btn-outline req-btn" data-group-index="${idx}" ${g.requested ? 'disabled' : ''}>${g.requested ? 'requested' : 'request join'}</button>
-              <button class="btn-outline view-team-btn" data-view-index="${idx}">view team</button>
+          const teamsHtml = filteredTeams.map((team, idx) => {
+            return `<div class="team-card">
+              <div class="team-name">${team.name}</div>
+              <div class="team-desc">${team.desc}</div>
+              <div class="team-meta"><i class="fa-regular fa-user"></i> ${team.members} members</div>
+              <div class="team-actions">
+                <button class="btn-outline req-btn" data-team-index="${idx}" ${team.requested ? 'disabled' : ''}>${team.requested ? 'requested' : 'request join'}</button>
+                <button class="btn-outline view-team-btn" data-view-index="${idx}">view team</button>
+              </div>
+            </div>`;
+          }).join('');
+
+          container.innerHTML = `
+            <div class="search-section">
+              <div class="search-wrapper">
+                <i class="fa-regular fa-magnifying-glass"></i>
+                <input type="text" id="searchTeams" placeholder="Search teams or members..." value="${searchInputText}">
+              </div>
+              <button class="search-btn" id="searchBtn">Search</button>
             </div>
-          </div>`;
-        }).join('') || '<p style="text-align:center;">No teams match your search.</p>';
+            <div class="teams-grid">
+              ${teamsHtml || '<p style="text-align:center; width:100%;">No teams match your search.</p>'}
+            </div>
+            <div class="create-group">
+              <h3><i class="fa-regular fa-plus"></i> create new squad</h3>
+              <input type="text" id="newGroupName" placeholder="group name">
+              <input type="text" id="newGroupDesc" placeholder="short description">
+              <button class="btn-primary" id="createGroupBtn">start group</button>
+            </div>
+          `;
 
-        container.innerHTML = `
-          <div class="search-section">
-            <i class="fa-regular fa-magnifying-glass"></i>
-            <input type="text" id="searchTeams" placeholder="Search teams or members..." value="${searchTerm}">
-          </div>
-          <div class="teams-grid">
-            ${groupsHtml}
-          </div>
-          <div class="create-group">
-            <h3><i class="fa-regular fa-plus"></i> create new squad</h3>
-            <input type="text" id="newGroupName" placeholder="group name">
-            <input type="text" id="newGroupDesc" placeholder="short description">
-            <button class="btn-primary" id="createGroupBtn">start group</button>
-          </div>
-        `;
-
-        document.getElementById('searchTeams').addEventListener('input', (e) => {
-          searchTerm = e.target.value.toLowerCase();
-          renderTeams();
-        });
-
-        document.querySelectorAll('.req-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const idx = btn.dataset.groupIndex;
-            if (idx !== undefined && !groups[idx].requested) {
-              groups[idx].requested = true;
-              renderTeams();
-            }
+          // Search input: update searchInputText on each keystroke
+          const searchInput = document.getElementById('searchTeams');
+          searchInput.addEventListener('input', (e) => {
+            searchInputText = e.target.value;
           });
-        });
 
-        document.querySelectorAll('.view-team-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const idx = btn.dataset.viewIndex;
-            if (idx !== undefined) {
-              selectedTeamIndex = parseInt(idx);
-              renderTeams();
-            }
-          });
-        });
-
-        document.getElementById('createGroupBtn').addEventListener('click', () => {
-          const name = document.getElementById('newGroupName').value.trim();
-          const desc = document.getElementById('newGroupDesc').value.trim();
-          if (name && desc) {
-            groups.push({ name, desc, members: 1, requested: false, memberList: ['you'], messages: [] });
-            document.getElementById('newGroupName').value = '';
-            document.getElementById('newGroupDesc').value = '';
+          // Search button: set searchFilter and re-render
+          document.getElementById('searchBtn').addEventListener('click', () => {
+            searchFilter = searchInputText.toLowerCase();
             renderTeams();
-          }
+          });
+
+          // Request join buttons
+          document.querySelectorAll('.req-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const idx = btn.dataset.teamIndex;
+              if (idx !== undefined && !teams[idx].requested) {
+                teams[idx].requested = true;
+                renderTeams();
+              }
+            });
+          });
+
+          // View team buttons
+          document.querySelectorAll('.view-team-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const idx = btn.dataset.viewIndex;
+              if (idx !== undefined) {
+                selectedTeamIndex = parseInt(idx);
+                renderTeams();
+              }
+            });
+          });
+
+          // Create group
+          document.getElementById('createGroupBtn').addEventListener('click', () => {
+            const name = document.getElementById('newGroupName').value.trim();
+            const desc = document.getElementById('newGroupDesc').value.trim();
+            if (name && desc) {
+              // new team with default member 'you'
+              teams.push({
+                name,
+                desc,
+                members: 1,
+                requested: false,
+                memberList: [{ username: 'you' }],
+                messages: []
+              });
+              document.getElementById('newGroupName').value = '';
+              document.getElementById('newGroupDesc').value = '';
+              renderTeams();
+            }
+          });
+        }
+      }
+
+      // Show member profile modal
+      const memberModal = document.getElementById('memberModal');
+      const memberModalContent = document.getElementById('memberModalContent');
+
+      function showMemberModal(user) {
+        const skillsHtml = user.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+        const projectsHtml = user.projects.map(p => `<div class="project-item">🚀 ${p}</div>`).join('');
+        const achievementsHtml = user.achievements.map(a => `<div class="achievement-item">🏆 ${a}</div>`).join('');
+
+        memberModalContent.innerHTML = `
+          <div class="modal-header">
+            <i class="fa-regular fa-circle-user modal-avatar"></i>
+            <h2>@${user.username}</h2>
+            <button class="modal-close" id="closeMemberModalBtn"><i class="fa-regular fa-xmark"></i></button>
+          </div>
+          <hr>
+          <h3>skills</h3>
+          <div style="margin: 16px 0;">${skillsHtml || 'None'}</div>
+          <h3>projects</h3>
+          <div style="margin: 16px 0;">${projectsHtml || 'None'}</div>
+          <h3>achievements</h3>
+          <div style="margin: 16px 0;">${achievementsHtml || 'None'}</div>
+        `;
+        memberModal.style.display = 'flex';
+
+        document.getElementById('closeMemberModalBtn').addEventListener('click', () => {
+          memberModal.style.display = 'none';
         });
       }
 
-      // profile modal
-      const modal = document.getElementById('profileModal');
-      const trigger = document.getElementById('profileTrigger');
-      const close = document.getElementById('closeModalBtn');
-      trigger.addEventListener('click', () => modal.style.display = 'flex');
-      close.addEventListener('click', () => modal.style.display = 'none');
-      window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+      // Close member modal when clicking overlay
+      memberModal.addEventListener('click', (e) => {
+        if (e.target === memberModal) memberModal.style.display = 'none';
+      });
 
+      // Profile modal for main user
+      const mainProfileModal = document.getElementById('profileModal');
+      const profileTrigger = document.getElementById('profileTrigger');
+      const closeMainModal = document.getElementById('closeModalBtn');
+      profileTrigger.addEventListener('click', () => mainProfileModal.style.display = 'flex');
+      closeMainModal.addEventListener('click', () => mainProfileModal.style.display = 'none');
+      window.addEventListener('click', (e) => { if (e.target === mainProfileModal) mainProfileModal.style.display = 'none'; });
+
+      // Initial render
       renderTeams();
     })();
   </script>
