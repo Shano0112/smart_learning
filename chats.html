@@ -1,248 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Idea2Code · Chats</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idea2Code · chats</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #ffffff;
-      color: #1e1e1e;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* HEADER */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 32px;
-      border-bottom: 1px solid #e0e0e0;
-      background: #fff;
-    }
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #0077ff;
-    }
-    .nav {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-    .nav a {
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 30px;
-      color: #1e1e1e;
-      font-weight: 500;
-    }
+    body { background: #ffffff; font-family: 'Inter', sans-serif; color: #1e1e1e; min-height: 100vh; display: flex; flex-direction: column; }
+    .header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid #e0e0e0; background: white; }
+    .logo { font-size: 1.8rem; font-weight: 700; color: #0077ff; letter-spacing: -0.5px; }
+    .nav { display: flex; align-items: center; gap: 12px; }
+    .nav a { text-decoration: none; color: #1e1e1e; font-weight: 500; padding: 8px 16px; border-radius: 30px; transition: background 0.2s, color 0.2s; }
     .nav a:hover { background: #eef5ff; color: #0077ff; }
     .nav a.active { background: #0077ff; color: white; }
+    .profile-icon { width: 48px; height: 48px; border-radius: 50%; background: #eef5ff; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid #0077ff; margin-left: 8px; }
+    .profile-icon i { font-size: 1.8rem; color: #0077ff; }
 
-    /* MAIN LAYOUT */
-    .chat-layout {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 80px);
-    }
+    /* main container */
+    .container { max-width: 1400px; margin: 32px auto; padding: 0 32px; width: 100%; flex: 1; display: flex; gap: 24px; height: calc(100vh - 180px); }
 
-    /* CONTACT LIST */
-    .contacts {
-      width: 280px;
-      border-right: 1px solid #e0e0e0;
-      padding: 20px;
-      overflow-y: auto;
-      background: #fafafa;
-    }
-    .contact {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      border-radius: 14px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      transition: background 0.2s;
-    }
-    .contact:hover { background: #eef5ff; }
-    .contact.active { background: #0077ff; color: white; }
-    .avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #eef5ff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      color: #0077ff;
-    }
-    .contact.active .avatar {
-      background: white;
-      color: #0077ff;
-    }
+    /* contacts sidebar */
+    .contacts-sidebar { width: 300px; background: #f5f7fa; border-radius: 24px; border: 1px solid #e0e0e0; display: flex; flex-direction: column; overflow: hidden; }
+    .contacts-header { padding: 20px; border-bottom: 1px solid #e0e0e0; font-weight: 600; font-size: 1.2rem; color: #0077ff; }
+    .contacts-list { flex: 1; overflow-y: auto; }
+    .contact-item { display: flex; align-items: center; gap: 12px; padding: 16px 20px; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid #e0e0e0; }
+    .contact-item:hover { background: #eef5ff; }
+    .contact-item.active { background: #e0f0ff; border-left: 4px solid #0077ff; }
+    .contact-avatar { width: 48px; height: 48px; border-radius: 50%; background: #0077ff20; display: flex; align-items: center; justify-content: center; color: #0077ff; font-size: 1.5rem; }
+    .contact-info { flex: 1; }
+    .contact-name { font-weight: 600; }
+    .contact-lastmsg { font-size: 0.85rem; color: #6f6f6f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .contact-time { font-size: 0.75rem; color: #8f8f8f; }
 
-    /* CHAT PANEL */
-    .chat-panel {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 24px;
-    }
-    .chat-header {
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    .messages {
-      flex: 1;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding-bottom: 16px;
-    }
-    .msg {
-      max-width: 70%;
-      padding: 12px 16px;
-      border-radius: 18px;
-      font-size: 0.95rem;
-    }
-    .msg.user {
-      background: #0077ff;
-      color: white;
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
-    .msg.other {
-      background: #eef5ff;
-      color: #1e1e1e;
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-    }
+    /* chat area */
+    .chat-area { flex: 1; background: #f5f7fa; border-radius: 24px; border: 1px solid #e0e0e0; display: flex; flex-direction: column; overflow: hidden; }
+    .chat-header { padding: 20px; border-bottom: 1px solid #e0e0e0; font-weight: 600; font-size: 1.2rem; background: white; }
+    .messages-container { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+    .message { max-width: 70%; display: flex; flex-direction: column; }
+    .message.sent { align-self: flex-end; }
+    .message.received { align-self: flex-start; }
+    .message-bubble { padding: 12px 16px; border-radius: 20px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+    .message.sent .message-bubble { background: #0077ff; color: white; border-bottom-right-radius: 4px; }
+    .message.received .message-bubble { background: white; border: 1px solid #e0e0e0; border-bottom-left-radius: 4px; }
+    .message-image { max-width: 200px; max-height: 200px; border-radius: 12px; margin-top: 8px; cursor: pointer; border: 1px solid #e0e0e0; }
+    .message-time { font-size: 0.7rem; color: #8f8f8f; margin-top: 4px; align-self: flex-end; }
 
-    /* INPUT */
-    .chat-input {
-      display: flex;
-      gap: 10px;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 14px;
-      border-radius: 30px;
-      border: 1px solid #d0d0d0;
-      outline: none;
-    }
-    .chat-input button {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: none;
-      background: #0077ff;
-      color: white;
-      cursor: pointer;
-    }
+    /* input area */
+    .input-area { display: flex; gap: 12px; padding: 20px; background: white; border-top: 1px solid #e0e0e0; }
+    .input-wrapper { flex: 1; display: flex; align-items: center; background: #f5f7fa; border-radius: 40px; padding: 0 16px; border: 1px solid #e0e0e0; }
+    .input-wrapper input { flex: 1; border: none; background: transparent; padding: 14px 0; font-size: 1rem; outline: none; }
+    .file-upload { position: relative; margin-right: 8px; }
+    .file-upload i { font-size: 1.4rem; color: #0077ff; cursor: pointer; }
+    .file-upload input { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+    .send-btn { background: #0077ff; border: none; color: white; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s; }
+    .send-btn:hover { background: #005fcc; }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .chat-layout { flex-direction: column; }
-      .contacts {
-        width: 100%;
-        display: flex;
-        overflow-x: auto;
-      }
-      .contact { min-width: 200px; }
-    }
+    /* image preview in input */
+    #imagePreview { max-width: 60px; max-height: 60px; border-radius: 8px; margin-right: 8px; display: none; object-fit: cover; }
+
+    /* modal */
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000; }
+    .modal-card { background: white; border-radius: 32px; padding: 32px; max-width: 450px; width: 90%; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .modal-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .modal-avatar { font-size: 4rem; color: #0077ff; background: #eef5ff; border-radius: 50%; padding: 8px; }
+    .modal-close { margin-left: auto; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #8f8f8f; }
+    .skill-tag { background: #eef5ff; color: #0077ff; border-radius: 30px; padding: 6px 14px; display: inline-block; margin: 4px; font-size: 0.9rem; }
+    .project-item, .achievement-item { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    hr { border: 1px solid #f0f0f0; margin: 20px 0; }
   </style>
 </head>
-
 <body>
-
-<header class="header">
-  <div class="logo">Idea2Code</div>
-  <nav class="nav">
-    <a href="index.html">home</a>
-    <a href="library.html">library</a>
-    <a href="aihub.html">AI hub</a>
-    <a href="chats.html" class="active">chats</a>
-    <a href="teams.html">teams</a>
-  </nav>
-</header>
-
-<main class="chat-layout">
-  <!-- CONTACTS -->
-  <aside class="contacts" id="contactList"></aside>
-
-  <!-- CHAT -->
-  <section class="chat-panel">
-    <div class="chat-header" id="chatTitle">Select a contact</div>
-    <div class="messages" id="messages"></div>
-
-    <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="Type a message..." />
-      <button id="sendBtn"><i class="fa-regular fa-paper-plane"></i></button>
+  <header class="header">
+    <div class="logo">Idea2Code</div>
+    <div style="display: flex; align-items: center;">
+      <nav class="nav">
+        <a href="index.html">home</a>
+        <a href="library.html">library</a>
+        <a href="aihub.html">AI hub</a>
+        <a href="teams.html">teams</a>
+        <a href="chats.html" class="active">chats</a>
+      </nav>
+      <div class="profile-icon" id="profileTrigger">
+        <i class="fa-regular fa-user"></i>
+      </div>
     </div>
-  </section>
-</main>
+  </header>
 
-<script>
-  const contacts = [
-    { id: 1, name: "Ayaan", messages: ["Hey! Working on frontend?", "Tailwind or CSS?"] },
-    { id: 2, name: "Meera", messages: ["Can you review my PR?", "Auth flow done!"] },
-    { id: 3, name: "Rohan", messages: ["API is ready 🚀", "Try /chat endpoint"] }
-  ];
+  <main class="container" id="chatsContainer">
+    <!-- contacts sidebar and chat area will be injected by js -->
+  </main>
 
-  let activeContact = null;
+  <!-- Profile modal (for logged-in user) -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <i class="fa-regular fa-circle-user modal-avatar"></i>
+        <h2>@genz_coder</h2>
+        <button class="modal-close" id="closeModalBtn"><i class="fa-regular fa-xmark"></i></button>
+      </div>
+      <p style="margin-bottom: 16px;">full-stack developer · AI/ML enthusiast</p>
+      <hr>
+      <h3>skills</h3>
+      <div style="margin: 16px 0;">
+        <span class="skill-tag">Python</span><span class="skill-tag">JavaScript</span><span class="skill-tag">React</span><span class="skill-tag">Node.js</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">Rust</span><span class="skill-tag">Docker</span>
+      </div>
+      <h3>projects</h3>
+      <div style="margin: 16px 0;">
+        <div class="project-item">🚀 Idea2Code — social dev app</div>
+        <div class="project-item">🤖 ML deployer — fastapi + torch</div>
+        <div class="project-item">🎮 rusty game — terminal rpg</div>
+        <div class="project-item">📊 pandas visualizer — streamlit</div>
+      </div>
+      <h3>achievements</h3>
+      <div style="margin: 16px 0;">
+        <div class="achievement-item">🏆 Google Code Jam 2023 participant</div>
+        <div class="achievement-item">⭐ Top 10 in local hackathon 2024</div>
+        <div class="achievement-item">📜 AWS Certified Cloud Practitioner</div>
+      </div>
+    </div>
+  </div>
 
-  const contactList = document.getElementById("contactList");
-  const messagesBox = document.getElementById("messages");
-  const chatTitle = document.getElementById("chatTitle");
-  const input = document.getElementById("chatInput");
+  <script>
+    (function() {
+      // ---------- MOCK DATA ----------
+      const contacts = [
+        { id: 1, name: 'alice', lastActive: '2m ago' },
+        { id: 2, name: 'bob', lastActive: '1h ago' },
+        { id: 3, name: 'charlie', lastActive: 'yesterday' },
+        { id: 4, name: 'dana', lastActive: 'online' },
+        { id: 5, name: 'eve', lastActive: '30m ago' },
+        { id: 6, name: 'frank', lastActive: '3h ago' },
+      ];
 
-  function renderContacts() {
-    contactList.innerHTML = "";
-    contacts.forEach(c => {
-      const div = document.createElement("div");
-      div.className = "contact" + (activeContact?.id === c.id ? " active" : "");
-      div.innerHTML = `<div class="avatar">${c.name[0]}</div><div>${c.name}</div>`;
-      div.onclick = () => openChat(c);
-      contactList.appendChild(div);
-    });
-  }
+      // Messages for each contact (key: contact id)
+      const messages = {
+        1: [
+          { sender: 'alice', text: 'Hey! Hows the project going?', time: '10:30 AM', type: 'text' },
+          { sender: 'me', text: 'Almost done, just need to polish the UI.', time: '10:32 AM', type: 'text' },
+          { sender: 'alice', text: 'Great! Can you share a screenshot?', time: '10:33 AM', type: 'text' },
+          { sender: 'me', image: 'https://picsum.photos/200/150?random=1', time: '10:35 AM', type: 'image' },
+          { sender: 'alice', text: 'Looks awesome!', time: '10:36 AM', type: 'text' }
+        ],
+        2: [
+          { sender: 'bob', text: 'Did you see the new React update?', time: '9:15 AM', type: 'text' },
+          { sender: 'me', text: 'Not yet, any breaking changes?', time: '9:17 AM', type: 'text' }
+        ],
+        3: [
+          { sender: 'charlie', image: 'https://picsum.photos/200/150?random=2', time: 'Yesterday', type: 'image' },
+          { sender: 'me', text: 'Nice pic! Where was that?', time: 'Yesterday', type: 'text' }
+        ],
+        4: [
+          { sender: 'dana', text: 'Meeting at 3pm today?', time: '11:00 AM', type: 'text' },
+          { sender: 'me', text: 'Sure, see you then.', time: '11:02 AM', type: 'text' }
+        ],
+        5: [
+          { sender: 'eve', text: 'Can you review my PR?', time: '8:00 AM', type: 'text' }
+        ],
+        6: [
+          { sender: 'frank', text: 'Lets pair program later!', time: '7:30 AM', type: 'text' }
+        ]
+      };
 
-  function openChat(contact) {
-    activeContact = contact;
-    chatTitle.textContent = contact.name;
-    messagesBox.innerHTML = "";
-    contact.messages.forEach(m => {
-      const div = document.createElement("div");
-      div.className = "msg other";
-      div.textContent = m;
-      messagesBox.appendChild(div);
-    });
-    renderContacts();
-  }
+      // Current selected contact
+      let currentContactId = 1;
 
-  document.getElementById("sendBtn").onclick = () => {
-    if (!activeContact || !input.value.trim()) return;
-    const msg = document.createElement("div");
-    msg.className = "msg user";
-    msg.textContent = input.value;
-    messagesBox.appendChild(msg);
-    input.value = "";
-    messagesBox.scrollTop = messagesBox.scrollHeight;
-  };
+      // DOM container
+      const container = document.getElementById('chatsContainer');
 
-  renderContacts();
-</script>
+      // Helper to format message time
+      function formatTime(date) {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
 
+      // Render contacts sidebar and chat area
+      function renderChats() {
+        // Build contacts list
+        const contactsHtml = contacts.map(c => {
+          const lastMsg = messages[c.id] && messages[c.id].length ? messages[c.id][messages[c.id].length-1] : null;
+          let lastText = '';
+          if (lastMsg) {
+            if (lastMsg.type === 'image') lastText = '📷 Image';
+            else lastText = lastMsg.text;
+          }
+          const activeClass = c.id === currentContactId ? 'active' : '';
+          return `
+            <div class="contact-item ${activeClass}" data-contact-id="${c.id}">
+              <div class="contact-avatar"><i class="fa-regular fa-user"></i></div>
+              <div class="contact-info">
+                <div class="contact-name">${c.name}</div>
+                <div class="contact-lastmsg">${lastText || 'No messages'}</div>
+              </div>
+              <div class="contact-time">${c.lastActive}</div>
+            </div>
+          `;
+        }).join('');
+
+        // Build messages for current contact
+        const currentMessages = messages[currentContactId] || [];
+        const messagesHtml = currentMessages.map(msg => {
+          if (msg.type === 'image') {
+            return `
+              <div class="message ${msg.sender === 'me' ? 'sent' : 'received'}">
+                <div class="message-bubble">
+                  <img src="${msg.image}" class="message-image" onclick="window.open(this.src)" loading="lazy">
+                </div>
+                <div class="message-time">${msg.time}</div>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="message ${msg.sender === 'me' ? 'sent' : 'received'}">
+                <div class="message-bubble">${msg.text}</div>
+                <div class="message-time">${msg.time}</div>
+              </div>
+            `;
+          }
+        }).join('');
+
+        const currentContact = contacts.find(c => c.id === currentContactId);
+
+        container.innerHTML = `
+          <div class="contacts-sidebar">
+            <div class="contacts-header">Contacts</div>
+            <div class="contacts-list">
+              ${contactsHtml}
+            </div>
+          </div>
+          <div class="chat-area">
+            <div class="chat-header">${currentContact ? currentContact.name : 'Select a contact'}</div>
+            <div class="messages-container" id="messagesContainer">
+              ${messagesHtml}
+            </div>
+            <div class="input-area">
+              <div style="display: flex; align-items: center; flex:1;">
+                <div class="file-upload">
+                  <i class="fa-regular fa-image"></i>
+                  <input type="file" id="chatImageFile" accept="image/*">
+                </div>
+                <div class="input-wrapper">
+                  <input type="text" id="chatMessageInput" placeholder="Type a message...">
+                  <img id="imagePreview" src="#" alt="preview">
+                </div>
+              </div>
+              <button class="send-btn" id="sendMessageBtn"><i class="fa-regular fa-paper-plane"></i></button>
+            </div>
+          </div>
+        `;
+
+        // Scroll messages to bottom
+        const msgContainer = document.getElementById('messagesContainer');
+        if (msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight;
+
+        // Attach contact click listeners
+        document.querySelectorAll('.contact-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            const contactId = parseInt(item.dataset.contactId);
+            if (contactId !== currentContactId) {
+              currentContactId = contactId;
+              renderChats();
+            }
+          });
+        });
+
+        // File input preview
+        const fileInput = document.getElementById('chatImageFile');
+        const preview = document.getElementById('imagePreview');
+        fileInput.addEventListener('change', function() {
+          if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              preview.src = e.target.result;
+              preview.style.display = 'block';
+            };
+            reader.readAsDataURL(this.files[0]);
+          } else {
+            preview.style.display = 'none';
+          }
+        });
+
+        // Send message
+        document.getElementById('sendMessageBtn').addEventListener('click', () => {
+          const textInput = document.getElementById('chatMessageInput');
+          const text = textInput.value.trim();
+          const file = fileInput.files[0];
+
+          if (!text && !file) return;
+
+          const now = new Date();
+          const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+          if (file) {
+            // Send image
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const imageDataUrl = e.target.result;
+              messages[currentContactId].push({
+                sender: 'me',
+                image: imageDataUrl,
+                time: timeString,
+                type: 'image'
+              });
+              // Clear input
+              textInput.value = '';
+              fileInput.value = '';
+              preview.style.display = 'none';
+              renderChats();
+            };
+            reader.readAsDataURL(file);
+          } else {
+            // Send text
+            messages[currentContactId].push({
+              sender: 'me',
+              text: text,
+              time: timeString,
+              type: 'text'
+            });
+            textInput.value = '';
+            renderChats();
+          }
+        });
+
+        // Allow enter key to send
+        document.getElementById('chatMessageInput').addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('sendMessageBtn').click();
+          }
+        });
+      }
+
+      // Profile modal logic (same as other pages)
+      const modal = document.getElementById('profileModal');
+      const trigger = document.getElementById('profileTrigger');
+      const close = document.getElementById('closeModalBtn');
+      trigger.addEventListener('click', () => modal.style.display = 'flex');
+      close.addEventListener('click', () => modal.style.display = 'none');
+      window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+      // Initial render
+      renderChats();
+    })();
+  </script>
 </body>
 </html>
